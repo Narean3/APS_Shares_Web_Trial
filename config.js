@@ -4,6 +4,9 @@ if (!APS_CLIENT_ID || !APS_CLIENT_SECRET || !APS_CALLBACK_URL || !APS_APP_NAME |
     process.exit(1);
 }
 const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 const APS_BUCKET_KEY = process.env.APS_BUCKET_KEY || APS_CLIENT_ID.toLowerCase() + '-shares';
 
 module.exports = {
