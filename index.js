@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const session = require('cookie-session');
 const { SERVER_SESSION_SECRET, PORT } = require('./config.js');
 
+
 let app = express();
 app.set('view engine', 'ejs');
 app.use(morgan('tiny'));
