@@ -21,6 +21,7 @@ router.get('/auth/callback', async (req, res, next) => {
         credentials.expires_at = Date.now() + credentials.expires_in * 1000;;
         req.session.credentials = credentials;
         req.session.user = { id: profile.sub, name: profile.name };
+        console.log("User logged in:", req.session.user);
         res.redirect('/');
     } catch (err) {
         next(err);
