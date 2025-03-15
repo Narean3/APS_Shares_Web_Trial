@@ -1,7 +1,7 @@
 require('dotenv').config({ path: './process.env' });
 const express = require('express');
 const morgan = require('morgan');
-const session = require('cookie-session');
+const session = require('express-session');
 const { SERVER_SESSION_SECRET, PORT } = require('./config.js');
 
 
@@ -12,10 +12,11 @@ app.use(session({
     name: 'session',
     keys: [SERVER_SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000,  // 1 day
-    secure: process.env.NODE_ENV === 'production',  // Set to `true` only in production (Render uses HTTPS)
-    httpOnly: true,  // Cookies are not accessible from JS (security measure)
-    sameSite: 'None'  // Allow cookies in cross-site requests (OAuth)
-  }));  
+    secure: process.env.NODE_ENV === 'production',  // Ensure `true` on HTTPS
+    httpOnly: true,
+    sameSite: 'None',
+    domain: '.onrender.com'  // Add this line for Render deployment
+}));   
 app.use(require('./routes/auth.js'));
 app.use(require('./routes/shares.js'));
 app.use(require('./routes/token.js'));
