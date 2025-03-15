@@ -8,7 +8,14 @@ const { SERVER_SESSION_SECRET, PORT } = require('./config.js');
 let app = express();
 app.set('view engine', 'ejs');
 app.use(morgan('tiny'));
-app.use(session({ secret: SERVER_SESSION_SECRET, maxAge: 24 * 60 * 60 * 1000 }));
+app.use(session({
+    name: 'session',
+    keys: [SERVER_SESSION_SECRET],
+    maxAge: 24 * 60 * 60 * 1000,  // 1 day
+    secure: process.env.NODE_ENV === 'production',  // Set to `true` only in production (Render uses HTTPS)
+    httpOnly: true,  // Cookies are not accessible from JS (security measure)
+    sameSite: 'None'  // Allow cookies in cross-site requests (OAuth)
+  }));  
 app.use(require('./routes/auth.js'));
 app.use(require('./routes/shares.js'));
 app.use(require('./routes/token.js'));
